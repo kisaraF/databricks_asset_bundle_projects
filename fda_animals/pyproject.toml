@@ -1,0 +1,34 @@
+[project]
+name = "fda_animals"
+version = "0.0.1"
+authors = [{ name = "kisarawenu@gmail.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "click>=8.3.1",
+    # Any dependencies for jobs and pipelines in this project can be added here
+    # See also https://docs.databricks.com/dev-tools/bundles/library-dependencies
+    #
+    # LIMITATION: for pipelines, dependencies are cached during development;
+    # add dependencies to the 'environment' section of your pipeline.yml file instead
+    "ruff>=0.14.10",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "databricks-dlt",
+    "databricks-connect>=15.4,<15.5",
+]
+
+[project.scripts]
+fda = "click_commands:fda_animals"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/", "src/fda_animals"]
+
+[tool.black]
+line-length = 125

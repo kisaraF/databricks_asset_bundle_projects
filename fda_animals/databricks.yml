@@ -1,0 +1,42 @@
+# This is a Databricks asset bundle definition for fda_animals.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: fda_animals
+  uuid: 4065db77-7b58-4d87-bada-8195a5f914c9
+
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+
+artifacts:
+  python_artifact:
+    type: whl
+    build: uv build --wheel
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+variables:
+  catalog:
+    default: sandbox_dev
+  schema:
+    description: The schema to use
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-3d0644b9-6ccc.cloud.databricks.com
+    variables:
+      catalog: sandbox_dev
+      schema: ${workspace.current_user.short_name}
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-3d0644b9-6ccc.cloud.databricks.com
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: sandbox_dev
+      schema: prod
+    permissions:
+      - user_name: ${workspace.current_user.userName}
+        level: CAN_MANAGE

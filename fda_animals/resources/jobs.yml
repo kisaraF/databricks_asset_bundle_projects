@@ -1,0 +1,27 @@
+resources:
+  jobs:
+    fda_animal_extract:
+      name: fda_animal_extract
+      tasks:
+        - task_key: fda-animals-data-extract
+          python_wheel_task:
+            package_name: fda_animals
+            entry_point: fda
+            parameters:
+              - extract
+              - "--catalog_name"
+              - "${var.catalog}"
+              - "--schema_name"
+              - "sandbox_schema"
+              - "--table_name"
+              - "animals_test"
+          environment_key: Default
+      queue:
+        enabled: true
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - ../dist/*.whl
+      performance_target: PERFORMANCE_OPTIMIZED
