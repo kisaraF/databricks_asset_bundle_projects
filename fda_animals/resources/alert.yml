@@ -1,0 +1,10 @@
+resources:
+  alerts:
+    fda_incident_count:
+      display_name: "fda_incident_count"
+      warehouse_id: 045b3fbaff8c7120
+      file_path: ../src/sql_alerts/fda_incident_count.dbalert.json
+    fda_drug_suspicion_alert:
+      display_name: "fda_drug_suspicion_alert"
+      warehouse_id: 045b3fbaff8c7120
+      file_path: ../src/sql_alerts/fda_drug_suspicion_alert.dbalert.json
